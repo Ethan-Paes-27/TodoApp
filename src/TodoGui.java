@@ -142,7 +142,7 @@ public class TodoGui extends JFrame {
             }
         } catch (FileNotFoundException e) {
             showError("Could not find \"" + file.getPath() + "\".\n"
-                    + "Put tasks.txt in the project's root folder, or use Load File.");
+                    + "Put task.txt in the project's root folder, or use Load File.");
             return;
         }
         tasks.clear();
@@ -216,7 +216,17 @@ public class TodoGui extends JFrame {
     private void sortBy(String field) {
         // TODO
         Task[] arr = tasks.toArray(new Task[0]);
-        showError("sortBy is not finished yet");
+
+        Sorts.bubbleSort(arr, field);
+        
+        tasks.clear();
+        for (Task t : arr) {
+            tasks.add(t);
+        }
+
+        // 4. Redraw the Swing table
+        refreshTable();
+        showStatus("Sorted by " + field);
     }
 
     private void refreshTable() {

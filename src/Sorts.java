@@ -19,6 +19,19 @@ public class Sorts {
         }
     }
 
+    public static boolean lessOrEqual(Task v, Task w, String field) {
+        switch (field) {
+            case "difficulty":
+                return v.getDifficulty().compareTo(w.getDifficulty()) <= 0;
+            case "completed":
+                return v.getCompleted().compareTo(w.getCompleted()) <= 0;
+            case "dueTime":
+                return v.getDueTime().compareTo(w.getDueTime()) <= 0;
+            default:
+                throw new IllegalArgumentException("Unknown field: " + field);
+        }
+    }
+
     /** Provided: swap a[i] and a[j]. */
     public static void exchange(Task[] a, int i, int j) {
         Task swap = a[i];
@@ -33,8 +46,13 @@ public class Sorts {
      * Use: less(a[i], a[i - 1], field)
      */
     public static boolean isSorted(Task[] a, String field) {
-        // TODO
-        return false;
+        for (int i = 1; i < a.length; i++) {
+            if (less(a[i], a[i-1], field)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -46,6 +64,21 @@ public class Sorts {
      *   - Challenge: stop early if a whole pass makes no swaps.
      */
     public static void bubbleSort(Task[] a, String field) {
-        // TODO
+        int count = 0;
+
+        for (int i = 0; i < a.length - 1; i++) {
+            count = 0;
+
+            for (int j = 0; j < a.length - 1 - i; j++) {
+                if (less(a[j+1], a[j], field)) {
+                    exchange (a, j, j+1);
+                    count++;
+                }
+            }
+
+            if (count == 0) {
+                break;
+            }
+        }
     }
 }
