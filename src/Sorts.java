@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /** Sorting utilities. Students finish isSorted and bubbleSort. */
 public class Sorts {
 
@@ -17,6 +19,10 @@ public class Sorts {
             default:
                 throw new IllegalArgumentException("Unknown field: " + field);
         }
+    }
+
+    public static boolean less(Task v, Task w, Comparator<Task> c) {
+        return c.compare(v,w) < 0;
     }
 
     public static boolean lessOrEqual(Task v, Task w, String field) {
@@ -55,6 +61,16 @@ public class Sorts {
         return true;
     }
 
+    public static boolean isSorted(Task[] a, Comparator<Task> c) {
+        for (int i = 1; i < a.length; i++) {
+            if (less(a[i], a[i-1], c)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * TODO 2: Bubble sort a into ascending order by the given field.
      *   - Repeat passes. In each pass, walk j from 0 up to the last unsorted pair.
@@ -71,6 +87,25 @@ public class Sorts {
 
             for (int j = 0; j < a.length - 1 - i; j++) {
                 if (less(a[j+1], a[j], field)) {
+                    exchange (a, j, j+1);
+                    count++;
+                }
+            }
+
+            if (count == 0) {
+                break;
+            }
+        }
+    }
+
+    public static void bubbleSort(Task[] a, Comparator<Task> c) {
+        int count = 0;
+
+        for (int i = 0; i < a.length - 1; i++) {
+            count = 0;
+
+            for (int j = 0; j < a.length - 1 - i; j++) {
+                if (less(a[j+1], a[j], c)) {
                     exchange (a, j, j+1);
                     count++;
                 }
